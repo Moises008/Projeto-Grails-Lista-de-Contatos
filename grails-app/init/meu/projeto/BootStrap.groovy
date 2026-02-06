@@ -2,10 +2,15 @@ package meu.projeto
 
 class BootStrap {
 
-    def init = {
+
+    AppInitializationService appInitializationService
+
+    def init = { servletContext ->
+
+        appInitializationService.initialize()
     }
 
     def destroy = {
-    }
 
+    }
 }

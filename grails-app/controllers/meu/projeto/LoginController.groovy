@@ -2,29 +2,30 @@ package meu.projeto
 
 class LoginController {
 
+
+    AuthenticationService authenticationService
+
     def index() {
 
     }
 
     def autenticar() {
-        println "👉 ENTROU NO AUTENTICAR"
+        println "👉 Solicitando autenticação ao Service para: ${params.email}"
 
-        def user = Usuario.findByUsernameAndPassword(
-                params.username, params.password
-        )
 
-        println "👉 USER ENCONTRADO? ${user}"
+
+        def user = authenticationService.authenticate(params.email, params.password)
 
         if (user) {
             session.usuario = user
-            println "👉 REDIRECIONANDO PARA CONTATO"
-            redirect(controller: "contato", action: "index")
+            println "👉 SUCESSO: Redirecionando para o Dashboard"
+            redirect(controller: "dashboard", action: "index")
         } else {
-            flash.message = "Usuário ou senha inválidos"
+            println "👉 FALHA: Credenciais incorretas"
+            flash.message = "E-mail ou senha inválidos"
             redirect(action: "index")
         }
     }
-
 
     def logout() {
         session.invalidate()

@@ -1,12 +1,9 @@
----
 grails:
     profile: web
     codegen:
         defaultPackage: meu.projeto
     gorm:
         reactor:
-            # Whether to translate GORM events into Reactor events
-            # Disabled by default for performance reasons
             events: false
 info:
     app:
@@ -30,19 +27,6 @@ spring:
                 - '**/*.gson'
                 - 'logback-spring.xml'
                 - '*.properties'
-environments:
-    development:
-        management:
-            endpoints:
-                enabled-by-default: true
-                web:
-                    base-path: '/actuator'
-                    exposure:
-                        include: '*'
-    production:
-        management:
-            endpoints:
-                enabled-by-default: false
 
 ---
 grails:
@@ -62,22 +46,22 @@ grails:
             csv: text/csv
             form: application/x-www-form-urlencoded
             html:
-              - text/html
-              - application/xhtml+xml
+                - text/html
+                - application/xhtml+xml
             js: text/javascript
             json:
-              - application/json
-              - text/json
+                - application/json
+                - text/json
             multipartForm: multipart/form-data
             pdf: application/pdf
             rss: application/rss+xml
             text: text/plain
             hal:
-              - application/hal+json
-              - application/hal+xml
+                - application/hal+json
+                - application/hal+xml
             xml:
-              - text/xml
-              - application/xml
+                - text/xml
+                - application/xml
     urlmapping:
         cache:
             maxsize: 1000
@@ -108,12 +92,16 @@ hibernate:
 dataSource:
     pooled: true
     jmxExport: true
-    driverClassName: com.mysql.cj.jdbc.Driver
-    dialect: org.hibernate.dialect.MySQL8Dialect
-    username: grails
-    password: grails123
-    url: jdbc:mysql://localhost:3306/contatos_db?useSSL=false&serverTimezone=UTC
+    driverClassName: org.mariadb.jdbc.Driver
+    dialect: org.hibernate.dialect.MariaDB106Dialect
+    username: root
+    password: nova_senha
+    url: jdbc:mariadb://localhost:3306/contatos_db?useUnicode=yes&characterEncoding=UTF-8
 
+environments:
+    development:
+        dataSource:
+            dbCreate: update
     test:
         dataSource:
             dbCreate: update
@@ -121,7 +109,7 @@ dataSource:
     production:
         dataSource:
             dbCreate: none
-            url: jdbc:h2:./prodDb;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
+            url: jdbc:mariadb://localhost:3306/contatos_db_prod
             properties:
                 jmxEnabled: true
                 initialSize: 5
@@ -129,14 +117,3 @@ dataSource:
                 minIdle: 5
                 maxIdle: 25
                 maxWait: 10000
-                maxAge: 600000
-                timeBetweenEvictionRunsMillis: 5000
-                minEvictableIdleTimeMillis: 60000
-                validationQuery: SELECT 1
-                validationQueryTimeout: 3
-                validationInterval: 15000
-                testOnBorrow: true
-                testWhileIdle: true
-                testOnReturn: false
-                jdbcInterceptors: ConnectionState
-                defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED

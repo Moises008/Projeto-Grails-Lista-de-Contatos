@@ -1,31 +1,20 @@
-<!doctype html>
-<html>
 <head>
-    <meta name="layout" content="main"/>
-    <title>Login</title>
+    <meta name="layout" content="auth"/>
+    <title>Member Login</title>
 </head>
+
 <body>
-
-<h2>Login</h2>
-
-<g:if test="${flash.message}">
-    <div style="color:red">${flash.message}</div>
-</g:if>
-
-<g:form controller="login" action="autenticar" method="post">
-    <label>Usuário</label>
-    <input type="text" name="username"/>
-
-    <label>Senha</label>
-    <input type="password" name="password"/>
-
-    <button type="submit">Entrar</button>
-</g:form>
-
-<br>
-<g:link controller="registro" action="index">
-    Registrar-se como membro
-</g:link>
-
+    <h5>Contacts Book Member Login</h5>
+    <g:form controller="login" action="authenticate" method="POST">
+        <div class="form-group mb-3 text-left">
+            <input type="text" name="username" class="form-control" placeholder="Email/Username">
+        </div>
+        <div class="form-group mb-3 text-left">
+            <input type="password" name="password" class="form-control" placeholder="******">
+        </div>
+        <button class="btn btn-primary btn-block w-100" type="submit">Login</button>
+        <g:link controller="member" action="create" class="btn btn-outline-primary btn-block w-100 mt-2">
+            Member Registration
+        </g:link>
+    </g:form>
 </body>
-</html>
