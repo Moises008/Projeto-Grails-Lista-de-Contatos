@@ -7,20 +7,20 @@ class ContactGroupController {
     def index() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
 
-        // Sincronizado com os métodos list() e count() do seu Service
+        
         [contactGroupList: contactGroupService.list(params),
          contactGroupCount: contactGroupService.count()]
     }
 
     def show(Long id) {
-        // Chamando .get() como definido no Service
+        
         def contactGroup = contactGroupService.get(id)
         if (!contactGroup) {
             flash.error = "Grupo não encontrado!"
             redirect(action: "index")
             return
         }
-        // Exibe o grupo e seus contatos (usando o hasMany do Domain)
+        
         respond contactGroup, model: [contactList: contactGroup.contacts]
     }
 
@@ -29,14 +29,14 @@ class ContactGroupController {
     }
 
     def save() {
-        // Criamos o objeto e passamos para o Service salvar
+        
         def contactGroup = new ContactGroup(params)
 
         if (contactGroupService.save(contactGroup)) {
             flash.message = "Grupo '${contactGroup.name}' criado com sucesso!"
             redirect(action: "index")
         } else {
-            // Caso haja erro de validação (ex: nome duplicado)
+            
             render(view: 'create', model: [contactGroup: contactGroup])
         }
     }
@@ -59,7 +59,7 @@ class ContactGroupController {
             return
         }
 
-        // Aplica as mudanças dos campos
+        
         contactGroup.properties = params
 
         if (contactGroupService.save(contactGroup)) {
